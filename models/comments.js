@@ -11,13 +11,45 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Comments.belongsTo(models.Users, {
+        foreignKey: 'userId',
+        onDelete: "cascade",
+        onUpdate: "cascade"
+      });
+      models.Comments.belongsTo(models.Posts, {
+        foreignKey: 'postId',
+        onDelete: "cascade",
+        onUpdate: "cascade"
+      });
     }
   }
   Comments.init({
-    comment: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
-    postId: DataTypes.INTEGER,
-    editCheck: DataTypes.BOOLEAN
+    commentId: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    comment: {
+      type: DataTypes.STRING
+    },
+    userId: {
+      type: DataTypes.INTEGER
+    },
+    postId: {
+      type: DataTypes.INTEGER
+    },
+    editCheck: {
+      type: DataTypes.BOOLEAN
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    }
   }, {
     sequelize,
     modelName: 'Comments',

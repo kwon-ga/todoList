@@ -11,14 +11,53 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Posts.hasMany(models.Comments, {
+        foreignKey: 'commentId',
+        onDelete: "cascade",
+        onUpdate: "cascade"
+      });
+      models.Posts.hasMany(models.Todos, {
+        foreignKey: 'todoId',
+        onDelete: "cascade",
+        onUpdate: "cascade"
+      });
+      models.Posts.belongsTo(models.Users, {
+        foreignKey: "userId",
+        onDelete: "cascade",
+        onUpdate: "cascade"
+      });
     }
   }
   Posts.init({
-    userId: DataTypes.INTEGER,
-    imageUrl: DataTypes.STRING,
-    title: DataTypes.STRING,
-    likesNum: DataTypes.INTEGER,
-    commentsNum: DataTypes.INTEGER
+    postId: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    userId: {
+      type: DataTypes.INTEGER
+    },
+    imageUrl: {
+      type: DataTypes.STRING
+    },
+    title: {
+      type: DataTypes.STRING
+    },
+    likesNum: {
+      type: DataTypes.INTEGER
+    },
+    commentsNum: {
+      type: DataTypes.INTEGER
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    }
   }, {
     sequelize,
     modelName: 'Posts',

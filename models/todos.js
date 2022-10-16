@@ -11,12 +11,42 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Todos.belongsTo(models.Users, {
+        foreignKey: 'userId',
+        onDelete: "cascade",
+        onUpdate: "cascade"
+      });
+      models.Todos.belongsTo(models.Posts, {
+        foreignKey: 'postId',
+        onDelete: "cascade",
+        onUpdate: "cascade"
+      });
     }
   }
   Todos.init({
-    userId: DataTypes.INTEGER,
-    content: DataTypes.STRING,
-    done: DataTypes.BOOLEAN
+    todoId: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    postId: {
+      type: DataTypes.INTEGER
+    },
+    content: {
+      type: DataTypes.STRING
+    },
+    done: {
+      type: DataTypes.BOOLEAN
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    }
   }, {
     sequelize,
     modelName: 'Todos',
