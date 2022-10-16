@@ -10,4 +10,4 @@ class UsersController {
     
 }
 
-module.exports = UsersController;
+module.exports = UsersController; 
