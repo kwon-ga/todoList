@@ -15,7 +15,7 @@ const userSchema = joi.object({
 
 class UsersController {
     usersService = new UsersService();
-
+    
     // userSignup
     userSignup = async (req,res,next) => {
         const { nickname, password, confirmPassword } = await userSchema.validateAsync(req.body).catch(e => {
@@ -40,24 +40,42 @@ class UsersController {
 
     // userLogin
     userLogin = async (req,res,next) => {
+            
+        try {
+        
+            const { nickname, password } = await userSchema.validateAsync(req.body).catch(e => {
+                res.status(400).json({ "ErrorMassge": "입력 정보를 확인해주세요." });    
+            });
+            
+            // 로그인 서비스 로직 호출
+            const result = await this.usersService.loginUser(nickname, password);
+            console.log(result);
+            if(result.err){ res.status(400).json({ "ErrorMassge": "닉네임 혹은 비밀번호를 확인해주세요." }) }
+        
+            const refreshDate = new Date();
+            refreshDate.setDate(refreshDate.getDate()+7);
+            res.cookie('RefreshToken', `Bearer ${result.RefreshToken}`, {
+                expires: refreshDate // 7일
+            });
 
-        const { nickname, password } = await userSchema.validateAsync(req.body).catch(e => {
-            res.status(400).json({ "ErrorMassge": "입력 정보를 확인해주세요." });    
-        });
+            // accessToken 쿠키 생성 
+            res.cookie('AccessToken', `Bearer ${result.AccessToken}`, {
+                expires: new Date(Date.now() + 10800000), // 3시간
+            });
 
-        // 로그인 서비스 로직 호출
-        const result = await this.usersService.loginUser(nickname, password);
-        console.log(result);
-        if(result.err){ res.status(400).json({ "ErrorMassge": "닉네임 혹은 비밀번호를 확인해주세요." }) }
+            res.status(201).json({ data: result });
+
+        } catch (error) {
+            next(error)
+        }
+    }
 
 
-        // accessToken 쿠키 생성 
-        res.cookie('AccessToken', `Bearer ${result.data}`, {
-            expires: new Date(Date.now() + 10800000), // 3시간
-        });
-
-        res.status(201).json({ data: result.data });
-        // res.status(201).json({ data: "로그인 성공!" });
+    // userLogout
+    userLogout = async (req,res,next)=>{
+        res.clearCookie('AccessToken');
+        res.clearCookie('RefreshToken');
+        res.status(201).json({ data: '로그아웃 완료 !' });
     }
 }
 
