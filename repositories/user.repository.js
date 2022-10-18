@@ -1,4 +1,4 @@
-const { Users } = require('../models');
+const { Users,sequelize,Sequelize } = require('../models');
 
 class UsersRepository{
     // findOneById
@@ -8,11 +8,41 @@ class UsersRepository{
     
     // createUser
     signup = async(nickname, encrpytedPassword) => {
+
         await Users.create({
             nickname,
-            encrpytedPassword
+            password:encrpytedPassword
         });
         return {msg: "new User created"};
+    }
+
+    // findUser
+    findUser = async (nickname) => {
+
+        const Query = `
+            SELECT * 
+            FROM Users
+            WHERE nickname='${nickname}'
+        `;
+
+        try{
+            const result = await sequelize.query(Query,{type:Sequelize.QueryTypes.SELECT,})
+            return result
+        }catch(e){
+            return 'USER SELECT ERROR !'
+        }
+    }
+
+    updateRefreshToken = async (userId,refreshToken) => {
+
+        const Query = `
+            UPDATE Users
+            SET refreshToken = '${refreshToken}'
+            WHERE userId = ${userId} 
+        `;
+
+        const result = await sequelize.query(Query,{type:Sequelize.QueryTypes.UPDATE,})
+        return result
     }
 }
 

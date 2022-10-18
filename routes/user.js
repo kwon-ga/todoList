@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const authMiddleware = require('../middlewares/authMiddleware');
+const isLoginMiddleware = require('../middlewares/isLoginMiddleware');
 
 const UsersController = require('../controllers/user.controller');
 const usersController = new UsersController;
 
 // 회원가입
 // 로그인
+
+router.post('/signup',usersController.userSignup);
+router.post('/login',isLoginMiddleware,usersController.userLogin);
+
 
 module.exports = router;
