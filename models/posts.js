@@ -47,9 +47,9 @@ module.exports = (sequelize, DataTypes) => {
     likesNum: {
       type: DataTypes.INTEGER
     },
-    commentsNum: {
-      type: DataTypes.INTEGER
-    },
+    // commentsNum: {
+    //   type: DataTypes.INTEGER
+    // },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE

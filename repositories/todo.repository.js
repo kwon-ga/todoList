@@ -10,12 +10,12 @@ class TodosRepository{
         return await Todos.find({where : {postId: postId}});
     };
     // createTodo
-    createTodo = async(userId, postId, content) => {
+    createTodo = async(postId,userId, content) => {
         await Todos.create({
             userId,
             postId,
             content,
-            done: false,
+            done: false
         });
         return {msg: "Todos created"}
     };

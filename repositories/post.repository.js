@@ -8,14 +8,15 @@ class PostsRepository{
         return await Posts.find({where : {postId: postId}});
     };
     createPost = async(userId, imageUrl, title) => {
-        await Posts.create({
+        return await Posts.create({
             userId,
             title,
             imageUrl,
-            likesNum: Math.round(Math.random()*10),
-            commentsNum: Math.round(Math.random()*10)
+            likesNum:0,
+            // likesNum: Math.round(Math.random()*10),
+            // commentsNum: Math.round(Math.random()*10)
         });
-        return {msg: "Posts created"}
+        
     };
     updatePost = async(userId, postId, title, imageUrl) => {
         await Posts.update(

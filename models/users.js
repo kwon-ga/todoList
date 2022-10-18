@@ -38,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: {
       allowNull: false,
       type: DataTypes.DATE
+    },
+    refreshToken: {
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
