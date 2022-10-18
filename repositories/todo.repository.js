@@ -11,30 +11,25 @@ class TodosRepository{
     };
     // createTodo
     createTodo = async(postId,userId, content) => {
-        await Todos.create({
+        return await Todos.create({
             userId,
             postId,
             content,
             done: false
         });
-        return {msg: "Todos created"}
     };
     // clearTodo
-    clearTodo = async(todoId, done) => {
-        let newDone = false;
-        if(done === false){
-            newDone = true;
-        }
-
-        await Todos.update(
+    clearTodo = async(todoId) => {
+        const todoInfo = await Todos.find({where : {todoId : todoId}});
+        const isDone = todoInfo.done;
+        return await Todos.update(
             {where: {todoId : todoId}},
-            {done : newDone} 
+            {done : !isDone} 
         )
     };
     // deleteTodo
     deleteTodo = async(todoId) => {
-        await Todos.delete({where: {todoId: todoId}});
-        return {msg: "Todos deleted"};
+        return await Todos.delete({where: {todoId: todoId}});
     };
 }
 
