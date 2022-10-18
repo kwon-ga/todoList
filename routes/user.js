@@ -10,6 +10,6 @@ const usersController = new UsersController;
 
 router.post('/signup',usersController.userSignup);
 router.post('/login',isLoginMiddleware,usersController.userLogin);
-
+router.post('/logout',usersController.userLogout);
 
 module.exports = router;

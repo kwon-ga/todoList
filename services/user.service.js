@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
 
-const jwtService = require("./jwt.service");
+let jwtService = require("./jwt.service");
 const UsersRepository = require('../repositories/user.repository');
 
 class UsersService {
@@ -45,7 +45,7 @@ class UsersService {
         
         // Token 생성
         const accessToken = await this.jwtService.createAccessToken(findUser.userId);
-        const refreshToken = await this.jwtService.createRefreshToken();
+        const refreshToken = await this.jwtService.createRefreshToken(findUser.userId);
 
         // refreshToken 암호화
         const hash_refreshToken = bcrypt.hashSync(refreshToken,5);
@@ -54,7 +54,7 @@ class UsersService {
         // refreshToken db 저장
         await this.usersRepository.updateRefreshToken(findUser.userId, hash_refreshToken); 
 
-        return {AccessToken:accessToken,RefreshToken:hash_refreshToken} 
+        return {AccessToken:accessToken,RefreshToken:refreshToken} 
     }
 }
 

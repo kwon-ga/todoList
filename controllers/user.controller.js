@@ -74,7 +74,7 @@ class UsersController {
     // userLogout
     userLogout = async (req,res,next)=>{
         res.clearCookie('AccessToken');
-        res.clearCookie('RefreshToken');
+        // res.clearCookie('RefreshToken');
         res.status(201).json({ data: '로그아웃 완료 !' });
     }
 }
