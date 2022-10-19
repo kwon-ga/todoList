@@ -38,7 +38,7 @@ class UsersRepository{
         const Query = `
             UPDATE Users
             SET refreshToken = '${refreshToken}'
-            WHERE userId = ${userId} 
+            WHERE userId = ${userId}
         `;
 
         const result = await sequelize.query(Query,{type:Sequelize.QueryTypes.UPDATE,})

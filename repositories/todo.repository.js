@@ -31,6 +31,16 @@ class TodosRepository{
     deleteTodo = async(todoId) => {
         return await Todos.delete({where: {todoId: todoId}});
     };
+
+    updateTodo = async(postId,userId,content,done) => {
+        
+        await Todos.update(
+            {content : content, done: done}, 
+            {where: {postId: postId}},
+        )
+
+        return {msg: "Todos updated"};
+    }
 }
 
 module.exports = TodosRepository;

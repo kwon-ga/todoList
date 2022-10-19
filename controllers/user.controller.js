@@ -18,6 +18,7 @@ class UsersController {
     
     // userSignup
     userSignup = async (req,res,next) => {
+
         const { nickname, password, confirmPassword } = await userSchema.validateAsync(req.body).catch(e => {
             res.status(400).json({ "ErrorMassge": "입력 정보를 확인해주세요." });    
         });
@@ -51,7 +52,9 @@ class UsersController {
             const result = await this.usersService.loginUser(nickname, password);
             console.log(result);
             if(result.err){ res.status(400).json({ "ErrorMassge": "닉네임 혹은 비밀번호를 확인해주세요." }) }
-        
+            
+
+            // RefreshToken 쿠키 생성
             const refreshDate = new Date();
             refreshDate.setDate(refreshDate.getDate()+7);
             res.cookie('RefreshToken', `Bearer ${result.RefreshToken}`, {
