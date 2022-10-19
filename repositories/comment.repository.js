@@ -2,24 +2,25 @@ const { Comments } = require('../models');
 
 class CommentsRepository{
     createComment = async(userId, postId, comment) => {
-        await Comments.create({
+        const commentInfo = await Comments.create({
             userId,
             postId,
             comment,
             editCheck: false
         });
-        return {msg: "comment created"};
+        console.log(commentInfo)
+        return commentInfo.commentId;
     };
-    updateComment = async(userId, postId, comment) => {
-        await Comments.update(
-            {where: {userId : userId, postId: postId}},
+    updateComment = async(commentId, comment) => {
+        const updateValue = await Comments.update(
+            {where: {commentId : commentId}},
             {comment : comment, editCheck: true} 
         );
-        return {msg: "comment updated"};
+        return updateValue;
     };
     deleteComment = async(commentId) => {
-        await Comments.delete({where: {commentId: commentId}});
-        return {msg: "comment deleted"};
+        const deleteValue = await Comments.delete({where: {commentId: commentId}});
+        return deleteValue;
     };
 
 }
