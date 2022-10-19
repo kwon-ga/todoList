@@ -4,11 +4,7 @@ const bcrypt = require("bcrypt");
 jwtService = new jwtService();
 UsersRepository = new UsersRepository();
 
-
-
-
 module.exports = async (req,res,next)=>{    
-    
     
     try {
         let accessToken = req.cookies['AccessToken'];
@@ -20,7 +16,6 @@ module.exports = async (req,res,next)=>{
         if(!result){
             console.log('AccessToken 만료, 재발급 시작');
             const refreshToken = req.cookies['RefreshToken'];
-
 
             // RefreshToken 유효기간 확인
             result = await jwtService.validateRefreshToken(refreshToken.split(' ')[1]);

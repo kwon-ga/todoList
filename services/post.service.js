@@ -4,7 +4,7 @@ class PostsService {
     postsRepository = new PostsRepository();
 
     // createPosts
-    createPosts = async (title,imageUrl,userId) => {
+    createPost = async (title,imageUrl,userId) => {
         try {
             // 게시글 생성
             const result = await this.postsRepository.createPost(userId, imageUrl, title);
