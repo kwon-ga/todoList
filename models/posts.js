@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "cascade"
       });
       models.Posts.hasMany(models.Todos, {
-        foreignKey: 'todoId',
+        foreignKey: 'postId',
         onDelete: "cascade",
         onUpdate: "cascade"
       });

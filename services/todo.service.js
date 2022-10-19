@@ -14,6 +14,21 @@ class TodosService {
         return {msg: "Todos created"}
     }
 
+    // updateTodos
+    updateTodos = async (postId,userId,todo)=>{
+        
+        try {
+            // todo 리스트 수정
+            for(let todoList in todo){
+                await this.todosRepository.updateTodo(postId,userId,todo[todoList].content,todo[todoList].done);
+            }
+            return {msg: "Todos updated"};
+
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
     // clearTodos
     // deleteTodos
 }
